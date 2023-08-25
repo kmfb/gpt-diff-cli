@@ -1,0 +1,20 @@
+{
+  "name": "gpt-diff",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": "src/index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "execa": "^8.0.1",
+    "openai": "^4.2.0",
+    "yargs": "^17.7.2"
+  }
+}
