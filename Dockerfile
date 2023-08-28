@@ -1,5 +1,9 @@
 FROM node:18-alpine
 
+# Install git
+RUN apk add --no-cache git
+
+
 RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
 WORKDIR /home/node/app
@@ -12,4 +16,5 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-CMD [ "node", "./src/index.mjs" ]
+ENTRYPOINT [ "node", "./src/index.mjs", "diff"]
+CMD [ "arg1", "arg2" ]

@@ -5,14 +5,19 @@ import { execa } from "execa";
 import { handleByGPT } from "./GPTDiff.mjs";
 import fs from "fs";
 
-// Check if there is a .git directory, if not error out
+const isInDocker = fs.existsSync("/toBeDiffed");
+
+if (isInDocker) {
+  process.chdir("/toBeDiffed");
+}
+
 if (!fs.existsSync(".git")) {
   console.log(
     "No .git directory found, please run this command in a git repository"
   );
   process.exit(1);
 }
-// Set the OpenAI API key to use
+
 const apiKey = process.env.API_KEY;
 if (!apiKey) {
   console.error(
@@ -30,19 +35,14 @@ async function runGitDiff(args) {
   }
 }
 
-yargs(hideBin(process.argv))
-  .command(
-    "diff [args...]",
-    "run git diff with provided arguments",
-    (yargs) => {
-      yargs.positional("args", {
-        describe: "arguments for git diff",
-        type: "array",
-      });
-    },
-    (argv) => {
-      runGitDiff(argv.args);
-    }
-  )
-  .demandCommand(1, "You need at least one command before moving on")
-  .help().argv;
+const argv = yargs(hideBin(process.argv)).argv;
+
+// Filter out the "diff" command if it's mistakenly passed along
+const argsWithoutDiff = argv._.filter((arg) => arg !== "diff");
+
+if (argsWithoutDiff.length === 0) {
+  console.error("Please provide arguments for git diff.");
+  process.exit(1);
+}
+
+runGitDiff(argsWithoutDiff);
