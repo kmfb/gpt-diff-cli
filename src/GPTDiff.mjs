@@ -64,7 +64,7 @@ async function handleByGPT(diffOutput) {
   // If you want to summarize the combined output, you can use another call to the model here.
   const combinedOutput = results.join(" ");
   const summaryPrompt = `
-    Summarize the following set of explanations about code changes. Ensure it's concise and captures the main points:
+    Summarize the following set of explanations about code changes. Ensure it's concise and captures the main points, and give me the markdown type of the output, showing the code changes in a nice way:
     ${combinedOutput}
 `;
 
